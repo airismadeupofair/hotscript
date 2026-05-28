@@ -13,6 +13,7 @@ import {
 import { Iterator, Prettify, Stringifiable } from "../helpers";
 import { Objects } from "../objects/Objects";
 import * as NumberImpls from "../numbers/impl/numbers";
+import * as TupleImpls from "./impl/tuples";
 import { Std } from "../std/Std";
 
 export namespace Tuples {
@@ -223,6 +224,34 @@ export namespace Tuples {
       this["arg1"]
     >;
   }
+
+  interface FlattenFn extends Fn {
+    return: this["args"] extends [
+      infer tuple extends readonly any[],
+      infer depth extends number
+    ]
+      ? TupleImpls.Flatten<tuple, depth>
+      : this["args"] extends [infer tuple extends readonly any[]]
+      ? TupleImpls.Flatten<tuple, 1>
+      : never;
+  }
+
+  /**
+   *
+   * flattens a tuple like {@link Array.prototype.flat} while preserving its item order and spreads
+   *
+   * @param tuple - the tuple to flatten
+   * @param depth - the depth upto which to flatten at @default 1
+   * 
+   * @example
+   * ``` ts
+   * type res2 = Call<Tuples.Flatten,[[1, 2],[[[3]]],[],[4,[5,[6,[...string[],7]]]],[[8],9],...[10, 11][]],4>; //[1, 2, 3, 4, 5, 6, ...(string | 7 | 8 | 9 | 10 | 11)[]]
+   * ```
+   */
+  export type Flatten<
+    tuple extends readonly any[] | _ | unset = unset,
+    depth extends number | _ | unset = unset
+  > = PartialApply<FlattenFn, [tuple, depth]>;
 
   type ReduceImpl<fn extends Fn, acc, xs> = xs extends [
     infer first,
