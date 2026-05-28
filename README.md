@@ -195,6 +195,7 @@ type ElementFromSelector<T> = H.Pipe<T, [
   - [x] `At<N, Tuple>`: Returns the `N`th element from a tuple.
   - [x] `Last<Tuple>`: Returns the last element from a tuple.
   - [x] `FlatMap<Fn, Tuple>`: Calls an `Fn` function returning a tuple on each element of the input tuple, and flattens all of the returned tuples into a single one.
+  - [x] `Flatten<Tuple, Depth>`: Flattens a Tuple (like `Array.prototype.flat`) up to a specified `Depth` while preserving item order and spreads. `Depth` has a default of `1` 
   - [x] `Find<Fn, Tuple>`: Finds an element from a tuple using a predicate `Fn`.
   - [x] `Drop<N, Tuple>`: Drops the `N` first elements from a tuple.
   - [x] `Take<N, Tuple>`: Takes the `N` first elements from a tuple.
