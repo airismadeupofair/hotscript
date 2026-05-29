@@ -137,7 +137,7 @@ export type KebabCase<
   ? str
   : output;
 
-export type IsTuple<a extends readonly any[]> = a extends
+export type IsTuple<a extends readonly any[]> = Required<a> extends
   | readonly []
   | readonly [any, ...any]
   | readonly [...any, any]
