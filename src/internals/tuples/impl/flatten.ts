@@ -358,7 +358,7 @@ type PeelRight<T extends RA> = IsArrayStrict<T> extends true
  * 
  * eg
  * ```
- * [[]]
+ * [1, 2, ...string[]] -> [[1], [2], string[]]
  * ```
  */
 type Peel<T extends RA> = PeelLeft<T> extends [
@@ -399,7 +399,11 @@ type FlattenOneLayer<T extends RA> =
                   ? Item extends RA
                     ? Item
                     : [Item]
-                  : never
+                  : Arr extends [(infer Item)?] 
+                    ? Item extends RA 
+                      ? Item
+                      : [Item] | []
+                    : never
             : never
             : Peeled[K];
         }]>
